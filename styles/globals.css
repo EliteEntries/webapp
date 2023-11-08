@@ -1,0 +1,51 @@
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+    .side-menu > li{
+        @apply w-40
+    }
+}
+
+.bi-lg {
+    font-size: 1.25rem !important;
+    line-height: 1.75rem !important;
+}
+
+.notifications {
+    right: -4rem !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.clickable { 
+    animation: pulse 0.2s 1 ease-out;
+}
+
+#tradingview_widget_wrapper :nth-child(2) {
+    display: none;
+}
+
+.drawer-side[class*=" p-"] li > *, .drawer-side[class^="p-"] li > * {
+    border-radius: 0px;
+}
+
+:where(.nav > *) {
+    display: inline-flex;
+    align-items: center;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow:  0 0 0 0 rgba(255,255,255,1),
+                 0 0 0 0 rgba(51,51,51,1);
+  }
+  to {
+    box-shadow:  0 0 0 0.65em rgba(255,255,255,1),
+                 0 0 0 1em rgba(51,51,51,0);
+  }
+}
