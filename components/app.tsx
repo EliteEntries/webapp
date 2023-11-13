@@ -13,7 +13,7 @@ import getAccountData from "../utilities/getAccountData"
 
 export default function App({state, pageProps, Component}: {state:any, pageProps: any, Component: any}) {
     
-    const { library, error: web3Error, deactivate, connector, account, activate } = useWeb3React();
+    const { library, error: web3Error, deactivate, connector, account } = useWeb3React();
     const { loading, user } = state;
     const [ isLoading, setLoading] = useState<{message:string, submessage?:string} | false>(false);
     const [userData, setUserData] = useState<any>(false)

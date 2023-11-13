@@ -24,7 +24,7 @@ const EmailPopup = ({state,}: Props) => {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const path = router.pathname.split('/')[1]
-  const loginEmail = httpsCallable(state?.firebase.functions, 'loginEmail')
+  const loginEmail = httpsCallable(state?.firebase.functions, 'loginWithEmail')
   const loginConfirm = httpsCallable(state?.firebase.functions, 'loginConfirm')
   
   async function signIn() {
