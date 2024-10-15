@@ -12,8 +12,8 @@ interface Props {
 
 const Login: NextPage<Props> = ({state}) => {
   const router = useRouter()
-  const [closing, setClosing] = useState<Number|false>(false)
-  const current = useRef<Number|false>(false)
+  const [closing, setClosing] = useState<number|false>(false)
+  const current = useRef<number|false>(false)
   current.current = closing
   const loginSession = httpsCallable(state.firebase.functions, 'loginSession')
 
@@ -53,7 +53,7 @@ const Login: NextPage<Props> = ({state}) => {
         <div><Loading /></div>
       </>}
 
-      {closing > 0 && <>
+      {closing && closing > 0 && <>
         <div>Success!</div>
         <div>{`Window closing In ${closing} seconds...`}</div>
       </>}
