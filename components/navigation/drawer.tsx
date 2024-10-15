@@ -2,6 +2,9 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { chart, chats, cpu, diagram3, wallet } from "./bottom-nav"
+import dynamic from "next/dynamic"
+
+const Logo = dynamic(() => import("./logo"), { ssr: false })
 
 const Drawer = () => {
   const router = useRouter()
@@ -10,7 +13,7 @@ const Drawer = () => {
     <div className="drawer">
       <div className="drawer-side">
         <div className="w-full m-0 p-0 flex justify-center">
-          <img src="../favicon.ico" className="w-32 h-32 my-5" />
+          <Logo />
         </div>
         <ul className="menu p-4 overflow-y-auto bg-base-100 text-base-content drawer-side">
           <li className={`${path == "strategies" && 'bordered'} m-1`}>
