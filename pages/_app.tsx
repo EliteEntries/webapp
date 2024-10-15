@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return <>
       <Web3ReactProvider getLibrary={getLibrary}>
       <Head>
-        <title>App</title>
+        <title>Elite Entries</title>
         <meta name="description" content="NextJS Application with Firebase and DaisyUI/Tailwind" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <link rel="icon" href="/favicon.ico" />

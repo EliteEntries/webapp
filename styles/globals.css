@@ -34,6 +34,13 @@
     border-radius: 0px;
 }
 
+.menu[class*=" p-"]:not(.menu[class*=" p-0"]) li>*, 
+.menu[class*=" px-"]:not(.menu[class*=" px-0"]) li>*, 
+.menu[class^=p-]:not(.menu[class^=p-0]) li>*, 
+.menu[class^=px-]:not(.menu[class^=px-0]) li>* {
+    border-radius: 0px;
+}
+
 :where(.nav > *) {
     display: inline-flex;
     align-items: center;
