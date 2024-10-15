@@ -41,7 +41,7 @@ const TopNav = ({state, web3} : Props) => {
       <div className="navbar-start">
         <div className={`dropdown lg:hidden ${!state.user ? 'hidden' : ''}`}>
           <label tabIndex={0} className="btn btn-ghost btn-circle">
-            <Logo/>
+            <img src="../favicon.ico" width='24' height='24'/>
           </label>
           <ul tabIndex={0} className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-40">
             <li><Link href="https://blog.eliteentri.es">Blog</Link></li>
