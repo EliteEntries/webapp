@@ -9,7 +9,7 @@
     "export": "next build && next export && firebase deploy --only hosting",
     "start": "next start",
     "lint": "next lint",
-    "deploy": "next build && next export && firebase deploy --only hosting && NODE_ENV=production firebase deploy --only functions"
+    "deploy": "./deploy.sh"
   },
   "dependencies": {
     "@walletconnect/web3-provider": "^1.7.8",

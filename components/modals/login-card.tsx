@@ -1,6 +1,6 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
 import { InjectedConnector } from '@web3-react/injected-connector'
-import { signInWithCustomToken, signInWithRedirect } from 'firebase/auth'
+import { signInWithCustomToken, signInWithPopup } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { useEffect, useState } from 'react'
 import { apple, google, metamask, microsoft, solana, walletconnect, yahoo } from '../../utilities/icons'
@@ -31,7 +31,7 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
   const walletAuth = httpsCallable(state.firebase.functions, 'walletAuth')
 
   async function signIn(provider: string = "google") {
-    await signInWithRedirect(state.firebase.auth, state.firebase.provider(provider)).catch(e => console.log(e));
+    await signInWithPopup(state.firebase.auth, state.firebase.provider(provider)).catch(e => console.log(e));
   }
 
   async function activateWallet(provider: AbstractConnector) {
@@ -44,16 +44,16 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
 
   const buttons: signInButton[] = [
     {name:"WalletConnect", icon: walletconnect, action: () => activateWallet(state.walletconnect), disabled:true},
-    {name:`Web3`, icon: metamask, action: () => activateWallet(injected)},
+    {name:`Web3`, icon: metamask, disabled: true, action: () => activateWallet(injected)},
     {name:"Google", icon: google, action: signIn },
-    {name:"Facebook", icon: <i className="bi bi-facebook mr-2 mb-2 text-2xl text-[#4267B2]"/>, action: ()=>signIn('facebook')},
-    {name:"Sign in with Email", icon: <i className="bi bi-envelope mr-2 mb-2 text-2xl" />, for:'email-modal'},
+    {name:"Facebook", icon: <i className="bi bi-facebook mr-2 mb-2 text-2xl text-[#4267B2]"/>, disabled: true, action: ()=>signIn('facebook')},
+    {name:"Sign in with Email", icon: <i className="bi bi-envelope mr-2 mb-2 text-2xl" />, for:'email-modal', disabled: true},
   ]
   const moreButtons: signInButton[] = [
     {name:"Apple", icon: apple, disabled: true},
     {name:"Microsoft", icon: microsoft, disabled: true},
-    {name:"Twitter", icon: <i className="bi bi-twitter mr-2 mb-2 text-2xl text-[#1DA1F2]"/>, action: ()=>signIn('twitter')},
-    {name:"Import Key", for:'key-modal'},
+    {name:"Twitter", icon: <i className="bi bi-twitter mr-2 mb-2 text-2xl text-[#1DA1F2]"/>, action: ()=>signIn('twitter'), disabled: true},
+    {name:"Import Key", for:'key-modal', disabled: true},
   ]
   const evenMoreButtons: signInButton[] = [
     {name:`Solana`, icon: solana, disabled: true},

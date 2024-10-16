@@ -1,7 +1,7 @@
+import dynamic from "next/dynamic";
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import icon from "../public/favicon.ico"
 
 interface Props {
   state: any,
@@ -10,6 +10,8 @@ interface Props {
 function capitalizeFirst(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
+
+const Logo = dynamic(() => import("./logo"), { ssr: false })
 
 const TopNav = ({state, web3} : Props) => {
   const [scroll, setScroll] = useState(0)

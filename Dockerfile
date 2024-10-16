@@ -1,8 +1,8 @@
-FROM node:16.10
+FROM node:20.17
 
 WORKDIR /usr/src/app
 
-ENV PORT 3000
+ENV PORT 8080
 
 COPY package.json ./
 
