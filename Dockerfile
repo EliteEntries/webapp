@@ -6,7 +6,7 @@ ENV PORT 8080
 
 COPY package.json ./
 
-RUN npm i
+RUN npm ci
 
 COPY . .
 
