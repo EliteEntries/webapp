@@ -22,7 +22,6 @@ const TopNav = ({state, web3} : Props) => {
       state.firebase.logOut((): void => {
           if (web3?.connector?.close)
             web3.connector.close()
-          web3.deactivate()
       })
     }
   }
