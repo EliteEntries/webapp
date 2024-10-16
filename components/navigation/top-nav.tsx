@@ -22,9 +22,11 @@ const TopNav = ({state, web3} : Props) => {
     if(state?.user) {
       e.preventDefault() 
       state.firebase.logOut((): void => {
-          if (web3?.connector?.close)
-            web3.connector.close()
-          web3.deactivate()
+          if (web3?.connector?.deactivate){
+            web3.connector.deactivate()
+          } else if (web3?.connector?.resetState) {
+            web3.connector.resetState()
+          }
       })
     }
   }

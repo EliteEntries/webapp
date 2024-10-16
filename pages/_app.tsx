@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import '../styles/globals.css'
 
-import { Web3ReactProvider } from '@web3-react/core'
+import { Web3ReactHooks, Web3ReactProvider } from '@web3-react/core'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { getRedirectResult } from 'firebase/auth'
 import { getToken } from 'firebase/messaging'
@@ -14,6 +14,8 @@ import Web3 from 'web3'
 import App from '../components/app'
 import Splash from '../components/stacks/splash'
 import Firebase from '../utilities/firebase'
+import { MetaMask } from '@web3-react/metamask'
+import { metaMask, hooks as metaMaskHooks } from '../connectors/metamask'
 
 
 const firebase = new Firebase();
@@ -74,14 +76,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }
 
-  function getLibrary(provider: any) {
-    const library = new Web3(provider);
-    return library;
-  };
+  const connectors: [MetaMask, Web3ReactHooks][] = [
+    [metaMask, metaMaskHooks],
+  ]
 
 
   return <>
-      <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3ReactProvider connectors={connectors}>
       <Head>
         <title>Elite Entries</title>
         <meta name="description" content="NextJS Application with Firebase and DaisyUI/Tailwind" />
