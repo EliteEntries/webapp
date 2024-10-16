@@ -1,0 +1,21 @@
+name: Deploy to GCP Cloud Run
+
+on:
+  push:
+    branches: [deploy]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure GCP credentials
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_secret: GCP_CREDENTIALS
+
+      - name: Build and deploy
+        run: ./deploy.sh
