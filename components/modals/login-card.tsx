@@ -1,11 +1,11 @@
 import { AbstractConnector } from '@web3-react/abstract-connector'
-import { useWeb3React } from '@web3-react/core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import { signInWithCustomToken, signInWithPopup } from 'firebase/auth'
 import { httpsCallable } from 'firebase/functions'
 import { useEffect, useState } from 'react'
 import { apple, google, metamask, microsoft, solana, walletconnect, yahoo } from '../../utilities/icons'
 import Link from 'next/link'
+import { useWeb3React } from '@web3-react/core'
 
 interface signInButton {
   for?: string
@@ -27,7 +27,7 @@ const injected = new InjectedConnector({
 
 const LoginCard = ({state, isLoading, setLoading}: Props) => {
   const [more, setMore] = useState(false)
-  const { active, activate, deactivate, account, library, connector } = useWeb3React()
+  const { isActive, account, provider, connector } = useWeb3React()
   const walletAuth = httpsCallable(state.firebase.functions, 'walletAuth')
 
   async function signIn(provider: string = "google") {
@@ -35,12 +35,18 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
   }
 
   async function activateWallet(provider: AbstractConnector) {
-    activate(provider).catch((e: any)=>console.log(e))
+    try {
+      setLoading({message:"Connecting to Wallet."})
+      await connector.activate(provider)
+    } catch (e) {
+      setLoading(false)
+      console.log(e)
+    }
   }
 
   const buttons: signInButton[] = [
     {name:"WalletConnect", icon: walletconnect, action: () => activateWallet(state.walletconnect), disabled:true},
-    {name:`Web3`, icon: metamask, disabled: true, action: () => activateWallet(injected)},
+    {name:`Web3`, icon: metamask, action: () => activateWallet(injected)},
     {name:"Google", icon: google, action: signIn },
     {name:"Facebook", icon: <i className="bi bi-facebook mr-2 mb-2 text-2xl text-[#4267B2]"/>, disabled: true, action: ()=>signIn('facebook')},
     {name:"Sign in with Email", icon: <i className="bi bi-envelope mr-2 mb-2 text-2xl" />, for:'email-modal', disabled: true},
@@ -59,7 +65,7 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
   ]
   
   useEffect(() => {
-    if (active && !state.user) {
+    if (isActive && !state.user) {
       const sign = async () => {
         await new Promise(r => setTimeout(r, 2000));//give it a second to see if it reopens the app automatically
         setLoading({message:"Authenticate by signing the message in your wallet."})
@@ -70,40 +76,39 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
           },5000)
         })
         const msg = 'Verify this message to sign in.'
-        const sig = await library.eth.personal.sign(msg, account).catch((e: any) => alert(e.message))
+        const sig = await provider?.getSigner().signMessage(msg).catch((e: any) => setLoading(false))
         if (sig) {
-          const res = await library.eth.accounts.recover(msg, sig)
           clearTimeout(timeout)
           setLoading({message:"Securely logging you in."})
-          if (res == account) {
-            const { data } = await walletAuth({
-              wallet: account
-            })
-            const { token } = data as {success: boolean, token?: string, message?:string}
-            if (token) {
-              await signInWithCustomToken(state.firebase.auth, token as string)
-              setLoading(false)
-            } else {
-              alert("Invalid Authentication. Please try logging in again.")
-              setLoading(false)
-            }
+          const { data } = await walletAuth({
+            message:msg,
+            sig:sig,
+          })
+          console.log(data)
+          const { success, token, message } = data as {success: boolean, token?: string, message?:string}
+          if (success && token) {
+            await signInWithCustomToken(state.firebase.auth, token as string)
+            setLoading(false)
           } else {
-            alert({message:"Invalid signature. Please try logging in again."})
+            alert("Invalid signature. Please try logging in again.")
             setLoading(false)
             if((connector as any)?.close)
               (connector as any).close()
-            deactivate()
+            if((connector as any)?.deactivate)
+            (connector as any).deactivate()
           }
         }
         else {
           alert('No signature provided. Please try again.')
         }
       }
-      sign()
-    } else if (state.user && !active) {
-      alert('Wallet Not Connected')
+      try {
+        sign()
+      } catch (e) {
+        setLoading(false)
+      }
     }
-  }, [active])
+  }, [isActive])
 
   function mapButtons(b: signInButton[], main: boolean) {
     return b.map((button) => ( 
