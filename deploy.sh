@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# Load environment variables
-. .env
-
 # Define variables
 IMAGE_NAME="webapp"
 GCR_PATH="gcr.io/eliteentries-algo/$IMAGE_NAME"
