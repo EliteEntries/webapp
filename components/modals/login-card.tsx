@@ -36,15 +36,17 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
 
   async function activateWallet(provider: AbstractConnector) {
     try {
+      setLoading({message:"Connecting to Wallet."})
       await connector.activate(provider)
     } catch (e) {
+      setLoading(false)
       console.log(e)
     }
   }
 
   const buttons: signInButton[] = [
     {name:"WalletConnect", icon: walletconnect, action: () => activateWallet(state.walletconnect), disabled:true},
-    {name:`Web3`, icon: metamask, disabled: true, action: () => activateWallet(injected)},
+    {name:`Web3`, icon: metamask, action: () => activateWallet(injected)},
     {name:"Google", icon: google, action: signIn },
     {name:"Facebook", icon: <i className="bi bi-facebook mr-2 mb-2 text-2xl text-[#4267B2]"/>, disabled: true, action: ()=>signIn('facebook')},
     {name:"Sign in with Email", icon: <i className="bi bi-envelope mr-2 mb-2 text-2xl" />, for:'email-modal', disabled: true},
@@ -74,7 +76,7 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
           },5000)
         })
         const msg = 'Verify this message to sign in.'
-        const sig = await provider?.getSigner().signMessage(msg).catch((e: any) => alert(`WOMP ${e.message}`))
+        const sig = await provider?.getSigner().signMessage(msg).catch((e: any) => setLoading(false))
         if (sig) {
           clearTimeout(timeout)
           setLoading({message:"Securely logging you in."})
@@ -100,9 +102,11 @@ const LoginCard = ({state, isLoading, setLoading}: Props) => {
           alert('No signature provided. Please try again.')
         }
       }
-      sign()
-    } else if (state.user && !isActive) {
-      alert('Wallet Not Connected')
+      try {
+        sign()
+      } catch (e) {
+        setLoading(false)
+      }
     }
   }, [isActive])
 
