@@ -15,7 +15,7 @@ jobs:
       - name: Configure GCP credentials
         uses: google-github-actions/auth@v1
         with:
-          credentials_secret: GCP_CREDENTIALS
+            credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: Build and deploy
         run: ./deploy.sh
