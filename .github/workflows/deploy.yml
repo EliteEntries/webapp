@@ -32,7 +32,7 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud run deploy $SERVICE_NAME \
+        gcloud run deploy webapp \
           --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp \
           --region US \
           --platform managed \
