@@ -24,16 +24,16 @@ jobs:
 
     - name: Build and tag Docker image
       run: |
-        docker build -t us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp:latest .
+        docker build -t us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp .
 
     - name: Push Docker image to Google Artifact Registry
       run: |
-        docker push us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp:latest
+        docker push us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp
 
     - name: Deploy to Cloud Run
       run: |
         gcloud run deploy $SERVICE_NAME \
-          --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp:latest \
+          --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp \
           --region US \
           --platform managed \
           --allow-unauthenticated
