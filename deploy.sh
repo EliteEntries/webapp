@@ -6,13 +6,14 @@ GCR_PATH="us-docker.pkg.dev/eliteentries-algo/eliteentries/$IMAGE_NAME/$IMAGE_NA
 REGION="us-central1"
 SERVICE_NAME="webapp"
 
+# Authenticate to Google Cloud
+gcloud auth login &&
+gcloud auth configure-docker
+
 # Build, tag, and push the Docker image
 docker build -t $IMAGE_NAME . &&
 docker tag $IMAGE_NAME $GCR_PATH &&
 docker push $GCR_PATH
-
-# Authenticate to Google Cloud
-gcloud auth configure-docker
 
 # Deploy to Google Cloud Run
 gcloud run deploy $SERVICE_NAME \
