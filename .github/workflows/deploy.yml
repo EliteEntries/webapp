@@ -38,7 +38,6 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud auth login
         gcloud run deploy webapp \
           --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp \
           --region us-central1 \
