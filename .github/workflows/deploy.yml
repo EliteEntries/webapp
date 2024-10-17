@@ -38,7 +38,7 @@ jobs:
 
     - name: Deploy to Cloud Run
       run: |
-        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-docker.pkg.dev
+        gcloud auth login
         gcloud run deploy webapp \
           --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp \
           --region us-central1 \
