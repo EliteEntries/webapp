@@ -20,7 +20,7 @@ jobs:
 
     - name: Authenticate Docker with Google Artifact Registry
       run: |
-        echo ${{ secrets.GCP_CREDENTIALS }} | docker login -u _json_key --password-stdin https://us-docker.pkg.dev
+        gcloud auth configure-docker us-docker.pkg.dev
 
     - name: Build and tag Docker image
       run: |
