@@ -2,7 +2,7 @@
 
 # Define variables
 IMAGE_NAME="webapp"
-GCR_PATH="gcr.io/eliteentries-algo/$IMAGE_NAME"
+GCR_PATH="us-docker.pkg.dev/eliteentries-algo/eliteentries/$IMAGE_NAME/$IMAGE_NAME:latest"
 REGION="us-central1"
 SERVICE_NAME="webapp"
 
