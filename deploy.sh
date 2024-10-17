@@ -16,3 +16,8 @@ docker tag $IMAGE_NAME $GCR_PATH &&
 docker push $GCR_PATH
 
 # Deploy to Google Cloud Run
+gcloud run deploy $SERVICE_NAME \
+  --image $GCR_PATH \
+  --platform managed \
+  --region $REGION \
+  --allow-unauthenticated

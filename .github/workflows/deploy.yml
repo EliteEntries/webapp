@@ -9,13 +9,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Configure GCP credentials
-        uses: google-github-actions/auth@v1
-        with:
-            credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+        project_id: eliteentries-algo
 
-      - name: Build and deploy
-        run: ./deploy.sh
+    - name: Authenticate Docker with Google Artifact Registry
+      run: |
+        echo ${{ secrets.GCP_CREDENTIALS }} | docker login -u _json_key --password-stdin https://us-docker.pkg.dev
+
+    - name: Build and tag Docker image
+      run: |
+        docker build -t us-docker.pkg.dev/eliteentries-algo/eliteentries/webpp:latest .
+
+    - name: Push Docker image to Google Artifact Registry
+      run: |
+        docker push us-docker.pkg.dev/eliteentries-algo/eliteentries/webpp:latest
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy $SERVICE_NAME \
+          --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webpp:latest \
+          --region US \
+          --platform managed \
+          --allow-unauthenticated
