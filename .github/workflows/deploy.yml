@@ -40,6 +40,6 @@ jobs:
       run: |
         gcloud run deploy webapp \
           --image us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp \
-          --region US \
+          --region us-central1 \
           --platform managed \
           --allow-unauthenticated
