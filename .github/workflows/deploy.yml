@@ -2,7 +2,7 @@ name: Deploy to GCP Cloud Run
 
 on:
   push:
-    branches: [deployment]
+    branches: [main]
 
 jobs:
   build-and-deploy:
@@ -34,7 +34,6 @@ jobs:
       run: |
         gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-docker.pkg.dev
         docker push us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp
-
 
     - name: Deploy to Cloud Run
       run: |
