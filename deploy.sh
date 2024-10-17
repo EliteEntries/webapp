@@ -11,6 +11,9 @@ docker build -t $IMAGE_NAME . &&
 docker tag $IMAGE_NAME $GCR_PATH &&
 docker push $GCR_PATH
 
+# Authenticate to Google Cloud
+gcloud auth configure-docker
+
 # Deploy to Google Cloud Run
 gcloud run deploy $SERVICE_NAME \
     --image $GCR_PATH \
