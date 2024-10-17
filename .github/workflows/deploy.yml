@@ -29,14 +29,12 @@ jobs:
     - name: Build and tag Docker image
       run: |
         docker build -t us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp .
-    
-    - name: Authenticate Docker to Google Artifact Registry
-      run: |
-        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://uss-docker.pkg.dev
 
-    - name: Push Docker image to Google Artifact Registry
+    - name: Push Docker image using gcloud
       run: |
+        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://us-docker.pkg.dev
         docker push us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp
+
 
     - name: Deploy to Cloud Run
       run: |
