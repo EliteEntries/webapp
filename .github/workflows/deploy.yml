@@ -12,16 +12,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
     - name: Set up Google Cloud SDK
       uses: google-github-actions/setup-gcloud@v1
       with:
-        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
         project_id: eliteentries-algo
 
     - name: Authenticate Docker with Google Artifact Registry
       run: |
         gcloud auth configure-docker --quiet
-        
+
     - name: Build and tag Docker image
       run: |
         docker build -t us-docker.pkg.dev/eliteentries-algo/eliteentries/webapp .
