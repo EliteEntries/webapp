@@ -1,5 +1,6 @@
 
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Backdrop from "./Backdrop";
 
 interface SidebarProps {
@@ -11,12 +12,17 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ children, styles, width = "w-64", show = false, onClose }) => {
-  // Mobile: slide in/out
-  // lg+: always visible
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
   return (
     <>
       {/* Backdrop for mobile */}
-      <Backdrop show={!!show && window.innerWidth < 1024} onClicked={onClose ?? (() => {})} />
+      <Backdrop show={!!show && isMobile} onClicked={onClose ?? (() => {})} />
       <aside
         className={`
           fixed top-0 left-0 h-screen z-[110] bg-background border-r border-border

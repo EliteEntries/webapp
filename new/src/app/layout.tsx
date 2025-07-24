@@ -4,6 +4,7 @@ import App from "../components/Content";
 import Nav from "../components/Nav";
 import "./globals.css";
 import { AuthProvider } from "./contexts/AuthContext";
+import { getServerAuthUser } from "@/utils/serverAuth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,17 +21,18 @@ export const metadata: Metadata = {
   description: "Where our entries are elite.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getServerAuthUser();
   return (
     <html lang="en">
       <AuthProvider>
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background overflow-x-hidden`}>
-          <Nav />
-          <App>
+          <Nav/>
+          <App  {...{user}} >
             {children}
           </App>
         </body>

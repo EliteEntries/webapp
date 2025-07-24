@@ -1,3 +1,5 @@
+
+"use client";
 import LoadinWheel from "../ui/LoadinWheel";
 import Backdrop from "../ui/Backdrop";
 

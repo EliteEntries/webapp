@@ -1,14 +1,14 @@
+"use client";
 import React from "react";
 import Main from "../ui/Main";
 import Footer from "../ui/Footer";
-import { getServerAuthUser } from "@/utils/serverAuth";
 
 interface AppProps {
   children: React.ReactNode;
+  user: any;
 }
 
-const App: React.FC<AppProps> = async ({ children }) => {
-  const user = await getServerAuthUser();
+const App: React.FC<AppProps> = ({ children, user }) => {
   return (
     <>
       <Main shift={!!user}>
