@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setLoading(false);
         }
       },
-      (error) => {
+      () => {
         if (isMounted) {
           setUser(null);
           setLoading(false);

@@ -22,10 +22,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   try {
     const decodedToken = await getAuth().verifyIdToken(token);
-    // Set a secure, HTTP-only cookie with the token
+    res.status(401).json({ error: 'Invalid token' });
+    // Handle error
     res.setHeader('Set-Cookie', `session=${token}; HttpOnly; Path=/; Secure; SameSite=Strict`);
     res.status(200).json({ status: 'success', uid: decodedToken.uid });
-  } catch (error) {
+  } catch {
     res.status(401).json({ error: 'Invalid token' });
   }
 }

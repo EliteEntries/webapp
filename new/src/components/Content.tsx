@@ -5,7 +5,7 @@ import Footer from "../ui/Footer";
 
 interface AppProps {
   children: React.ReactNode;
-  user: any;
+  user: unknown;
 }
 
 const App: React.FC<AppProps> = ({ children, user }) => {
