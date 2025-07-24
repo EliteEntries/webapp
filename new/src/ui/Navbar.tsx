@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ children, styles, fixed = true, bottom 
       : "fixed top-0 left-0"
     : "relative";
 
-  const shiftClass = shift ? "ml-64" : "";
+  const shiftClass = shift ? "lg:ml-64" : "";
 
   return (
     <nav

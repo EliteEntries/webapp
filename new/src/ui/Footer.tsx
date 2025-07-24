@@ -11,7 +11,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ shift = false }) => {
-  const shiftClass = shift ? "ml-64" : "";
+  const shiftClass = shift ? "lg:ml-64" : "";
   return (
     <footer className={`w-full h-24 px-4 flex flex-col items-center z-50 ${shiftClass}`}>
       <div className="w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2 py-6">
