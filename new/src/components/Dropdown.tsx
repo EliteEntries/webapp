@@ -37,7 +37,7 @@ const Dropdown: React.FC<DropdownProps> = ({ button, children, align = "right" }
       </Button>
       {open && (
         <div
-          className={`absolute z-20 mt-2 min-w-[160px] bg-popover border border-border rounded-lg shadow-lg py-2 ${align === "right" ? "right-0" : "left-0"}`}
+          className={`absolute z-20 mt-2 min-w-[160px] bg-popover rounded-lg shadow-lg py-2 ${align === "right" ? "right-0" : "left-0"}`}
         >
           {children}
         </div>

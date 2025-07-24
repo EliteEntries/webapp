@@ -1,0 +1,17 @@
+runtime: nodejs20
+instance_class: F2
+
+env_variables:
+  FIREBASE_PROJECT_ID: "$(FIREBASE_PROJECT_ID)"
+  FIREBASE_CLIENT_EMAIL: "$(FIREBASE_CLIENT_EMAIL)"
+  FIREBASE_PRIVATE_KEY: "$(FIREBASE_PRIVATE_KEY)"
+
+# Reference secrets from Google Cloud Secret Manager
+# Make sure to create these secrets and grant access to App Engine default service account
+secrets:
+- env_var: FIREBASE_PROJECT_ID
+  secret: projects/elite-entries/secrets/FIREBASE_PROJECT_ID/versions/latest
+- env_var: FIREBASE_CLIENT_EMAIL
+  secret: projects/elite-entries/secrets/FIREBASE_CLIENT_EMAIL/versions/latest
+- env_var: FIREBASE_PRIVATE_KEY
+  secret: projects/elite-entries/secrets/FIREBASE_PRIVATE_KEY/versions/latest

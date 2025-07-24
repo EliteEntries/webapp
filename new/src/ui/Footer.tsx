@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 import React from "react";
 
 const hashSVG = (
@@ -17,17 +6,22 @@ const hashSVG = (
   </svg>
 );
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  shift?: boolean;
+}
+
+const Footer: React.FC<FooterProps> = ({ shift = false }) => {
+  const shiftClass = shift ? "ml-64" : "";
   return (
-    <footer className="fixed bottom-0 right-0 left-0 lg:left-64 h-24 px-2 flex flex-col items-center z-50">
-      <div className="w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2 h-full py-6">
+    <footer className={`w-full h-24 px-4 flex flex-col items-center z-50 ${shiftClass}`}>
+      <div className="w-full mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2 py-6">
         {/* Left: Logo & tagline */}
         <div className="flex items-start gap-2">
+          <div className="text-muted-foreground">{hashSVG}</div>
           <div className="flex flex-col gap-2 justify-end">
             <div className="text-base text-muted-foreground font-medium">Elite Entries.</div>
             <div className="text-sm text-muted-foreground">Where our entries are elite.</div>
           </div>
-          <div className="text-muted-foreground">{hashSVG}</div>
         </div>
 
         {/* Center: Social */}
