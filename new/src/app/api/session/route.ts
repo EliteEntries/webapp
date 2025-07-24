@@ -1,4 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+
+
+import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 
@@ -12,21 +14,18 @@ if (!getApps().length) {
   });
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-  const { token } = req.body;
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+  const { token } = body;
   if (!token) {
-    return res.status(400).json({ error: 'No token provided' });
+    return NextResponse.json({ error: 'No token provided' }, { status: 400 });
   }
   try {
     const decodedToken = await getAuth().verifyIdToken(token);
-    res.status(401).json({ error: 'Invalid token' });
-    // Handle error
-    res.setHeader('Set-Cookie', `session=${token}; HttpOnly; Path=/; Secure; SameSite=Strict`);
-    res.status(200).json({ status: 'success', uid: decodedToken.uid });
+    const response = NextResponse.json({ status: 'success', uid: decodedToken.uid });
+    response.headers.set('Set-Cookie', `session=${token}; HttpOnly; Path=/; Secure; SameSite=Strict`);
+    return response;
   } catch {
-    res.status(401).json({ error: 'Invalid token' });
+    return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
   }
 }

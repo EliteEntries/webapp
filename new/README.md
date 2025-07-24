@@ -1,36 +1,75 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+
+# Elite Entries
+
+Elite Entries is an API key aggregator platform designed to provide a unified, OAuth-supported access point for multiple third-party APIs. By centralizing API key management and authentication, Elite Entries simplifies integration for developers and organizations, reducing the complexity of handling multiple API credentials and authentication flows.
+
+## Features
+
+- **API Key Aggregation:** Manage and store multiple API keys securely in one place.
+- **Unified OAuth Access:** Offer a single OAuth-based authentication flow to access various third-party APIs.
+- **Developer-Friendly:** Easy integration for web and mobile applications.
+- **Security:** Centralized credential management with best practices for secure storage and access.
+- **Extensible:** Easily add support for new APIs and services.
+
+## How It Works
+
+1. **Connect Accounts:** Users connect their third-party accounts (e.g., Google, Twitter, etc.) via OAuth through Elite Entries.
+2. **Centralized Access:** Applications authenticate users via Elite Entries, which manages the underlying API keys and tokens.
+3. **API Requests:** Applications make API requests through Elite Entries, which proxies and manages authentication with the target services.
+
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/EliteEntries/webapp.git
+   cd webapp
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+3. Set up environment variables:
+   - Copy `.env.development.example` to `.env.development` and fill in your credentials.
+
+### Running the App
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at `http://localhost:3000` by default.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/` - Main application source code
+  - `app/` - Next.js app directory
+  - `components/` - Shared React components
+  - `contexts/` - React context providers (e.g., Auth, Theme)
+  - `utils/` - Utility functions (e.g., Firebase, server auth)
+  - `ui/` - UI components (e.g., Navbar, Sidebar)
+- `public/` - Static assets
+- `.env.development` - Environment variables (not committed)
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! Please open issues or submit pull requests for improvements or bug fixes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Deploy on Vercel
+## Contact
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For questions or support, please contact the maintainers via GitHub Issues.
