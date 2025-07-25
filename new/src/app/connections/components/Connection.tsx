@@ -28,7 +28,7 @@ const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) =>
   const handleSave = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`${process.env.APP_URL || 
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
         'http://localhost:3000'}/api/key/save`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },

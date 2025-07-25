@@ -8,7 +8,7 @@ interface KeyInfo {
 }
 
 async function getKeys(): Promise<KeyInfo[]> {
-  const res = await fetch(`${process.env.APP_URL || 
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
     'http://localhost:3000'}/api/key/list`, {
     cache: 'no-store',
   });
