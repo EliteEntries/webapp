@@ -19,7 +19,7 @@ export default function HomeButton() {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
       await signInWithPopup(auth, provider);
-      window.location.href = "/connections";
+      window.location.href = "/keys";
     } catch (error) {
       // Optionally handle error
       console.error("Google sign-in error:", error);
@@ -37,8 +37,8 @@ export default function HomeButton() {
     <Button
       className="mt-4 px-6 py-3 rounded-full bg-primary text-white font-semibold shadow hover:opacity-90 transition-colors"
     >
-      <a href="/connections">
-        Manage Connections
+      <a href="/keys">
+        Manage Keys
       </a>
     </Button>
   );

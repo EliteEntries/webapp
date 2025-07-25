@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Button from "../../../components/Button";
 
-interface ConnectionProps {
+interface KeyProps {
   name: string;
   description: string;
   apiKey: string;
@@ -14,7 +14,7 @@ function maskKey(key: string) {
   return key.slice(0, 4) + "-xxxx-xxxx-" + key.slice(-4);
 }
 
-const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) => {
+const Key: React.FC<KeyProps> = ({ name, description, apiKey }) => {
   const [editing, setEditing] = useState(false);
   const [input, setInput] = useState(apiKey);
 
@@ -74,4 +74,4 @@ const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) =>
   );
 };
 
-export default Connection;
+export default Key;

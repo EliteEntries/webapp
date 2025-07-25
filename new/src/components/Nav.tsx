@@ -16,7 +16,7 @@ interface NavProps {
 
 const menu = [
   { label: "Home", href: "/" },
-  { label: "Connections", href: "/connections" },
+  { label: "Keys", href: "/keys" },
   { label: "Settings", href: "/settings" }, 
   { label: "About", href: "/about" },
 ];
@@ -47,7 +47,7 @@ const Nav: React.FC<NavProps> = () => {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
       await signInWithPopup(auth, provider);
-      router.push("/connections");
+      router.push("/keys");
     } catch (error) {
       // Optionally handle error
       console.error("Google sign-in error:", error);

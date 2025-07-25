@@ -1,5 +1,8 @@
+// Convert to client component for modal state
+'use client';
+
 import { AuthGuard } from "../contexts/AuthContext";
-import Connections from "./components/Connections";
+import Keys from "./components/Connections";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import { useState } from "react";
@@ -22,12 +25,9 @@ async function getKeys(): Promise<KeyInfo[]> {
   return data.keys || [];
 }
 
-// Convert to client component for modal state
-'use client';
-
 import React from "react";
 
-export default function ConnectionsPage() {
+export default function KeysPage() {
   const [keys, setKeys] = useState<KeyInfo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [keyName, setKeyName] = useState("");
@@ -63,12 +63,12 @@ export default function ConnectionsPage() {
   return (
     <AuthGuard>
       <div className="max-w-xl mx-auto p-8 mt-12">
-        <h1 className="text-2xl font-bold mb-6">Connections</h1>
+        <h1 className="text-2xl font-bold mb-6">Keys</h1>
         <p className="mb-8 text-gray-500 dark:text-gray-400">Aggregate your API keys for various exchanges and services below.</p>
         <Button className="mb-6 px-4 py-2 bg-primary text-white rounded" onClick={() => setModalOpen(true)}>
           Create Key
         </Button>
-        <Connections keys={keys} />
+        <Keys keys={keys} />
         <Modal
           open={modalOpen}
           onClose={() => setModalOpen(false)}

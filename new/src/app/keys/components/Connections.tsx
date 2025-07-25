@@ -16,11 +16,11 @@ const keyDescriptions: Record<string, string> = {
   Kraken: "Connect your Kraken API key for trade automation.",
 };
 
-type ConnectionsProps = {
+type KeysProps = {
   keys: KeyInfo[];
 };
 
-const Connections: React.FC<ConnectionsProps> = ({ keys }) => {
+const Keys: React.FC<KeysProps> = ({ keys }) => {
   const [openIndex, setOpenIndex] = React.useState<number | null>(null);
 
   return (
@@ -48,4 +48,4 @@ const Connections: React.FC<ConnectionsProps> = ({ keys }) => {
   );
 };
 
-export default Connections;
+export default Keys;
