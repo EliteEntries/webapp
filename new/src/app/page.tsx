@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center h-full font-sansp-8 pt-24">
       <Image
-        className="dark:invert mb-6"
+        className="mb-6"
         src="/icon.png"
         alt="Elite Entries logo"
         width={180}
