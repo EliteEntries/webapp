@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children, styles, width = "w-64", sho
       <Backdrop show={!!show && isMobile} onClicked={onClose ?? (() => {})} />
       <aside
         className={`
-          fixed top-0 left-0 h-screen z-[110] bg-background border-r border-border
+          fixed top-0 left-0 h-screen z-[110] bg-background
           ${width}
           transition-transform duration-300
           ${styles ?? ""}

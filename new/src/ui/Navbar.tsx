@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ children, styles, fixed = true, bottom 
 
   return (
     <nav
-      className={`z-50 h-12 px-4 flex items-center border-b border-border bg-background/80 backdrop-blur-md ${shiftClass} ${positionClass} ${styles ?? ""} right-0`}
+      className={`z-50 h-12 px-4 flex items-center bg-background/80 backdrop-blur-md ${shiftClass} ${positionClass} ${styles ?? ""} right-0`}
     >
       {children}
     </nav>
