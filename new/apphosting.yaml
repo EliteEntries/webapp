@@ -26,11 +26,13 @@ env:
   # Configure environment variables.
   # Grant access to secrets in Cloud Secret Manager.
   - variable: FIREBASE_PROJECT_ID
-    value: elite-entries
+    secret: projects/elite-entries/secrets/FIREBASE_PROJECT_ID/versions/latest
     
   - variable: FIREBASE_CLIENT_EMAIL
-    value: firebase-adminsdk-fbsvc@elite-entries.iam.gserviceaccount.com
+    secret: projects/elite-entries/secrets/FIREBASE_CLIENT_EMAIL/versions/latest
 
   - variable: FIREBASE_PRIVATE_KEY
-    value: "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC5DiBh8w0ah4Ui\nppICnel76OFKrEIuwLcipyew3CbabQIS8o70MVRw5uA7G9ZGMbt7ZvmoljOixsaV\nKl8rn/DZ3JJQA4wbf0miGoGPLX1Uct27Yv2YUVkfoNb01YuryQdHmjzHwk2N1gbA\niwopkdkhI1Gw7oune1GZL7eK/IG7brv8xYgsw6ddDRbreiNaL3DH/VOQlaOTPbhH\nnZCIUrR1DxMpD9Fz6vCdbBI294tSHHVnNJNCrKKmZrXUHYJEWJhQWgu4kee0e+/Y\n7PT49gOp+8gUXuxKKr4wg+8TLuEt19Ka9LHnP6UegRcIzklGZ5Ta07r7zaBwAcsY\nNlKEpo/5AgMBAAECggEADqNuRAFGGz/2yUe+4LkdbpanN6Z1B8i+fohqzIPls5KQ\nPu/JXMoILB7Umahj5KKWJOFU72qORBqQO913BiGSm6aQkQbEJFVcfZe2LEgaFBOQ\nCad/eEyQYxRF3LvbCWg6DLEdN2SzM3ySL9SaewZVVC3nOOVDI9Oj9UeqhQfgup2Z\n5D+bcbXng9ojqsrjBkAURbej1Hrdf80i22BwsIPC6ovqdW1aVt5U44Uv8CUKMeN+\n+507cu9C52XgR6J0rANi+Bdb1z/mdeMU0jPugasfwgJY1jXtnUaSKcDalbphMKhz\nt8EctInuo3uRzeIGkJh/dtyIVFZryq3sKfcVjYKs/wKBgQDZruTxaW8KFGM+XjHW\nI3+5usA2Z35QDWMlh/a1jIFdvT8Im5IrGT8DIOTg+aBTaK85+fVaHVoXHfsv/Cok\n2ToTM0VJdSV40jl7wsQv1RrIolR8fnTgp/s9aJGkQlCXH9Xo8L+OLtxj9JI3eIEK\nCJxhdWVqFh99+Car+u4lH3Wr/wKBgQDZoPgmkeH/dRL8UL8prVgYaI6XJpI+whNc\nqMHWw4itheelKAOAK/C8XiWPRx6HT93cQXGKGywmpcm3fum+wiaLl4N9u8UaYOdV\nwsASXgEiXZzVhU0FqBXvVFHYMKUPgvOQwI+ZeoO9Es/82VpijzIItHcv3AFvKQyu\n6Nfoj8EkBwKBgQCqUXImBNVxcIQ6Dx81Ke9MlXbA2nb1EZRqkBgS8k1h16lTBc32\n1Lj9rKYH9Khhun2nghBbIq4TekzHvagHzsLmtO3YTMU15F4/nCM+PaHIK2KpSZQP\nFr+3y3Jwr8Y4iBspN/zYtYeQ2ZHxvuJPxG7+vgjMWWTofdlcJGhiOVwrZwKBgQCG\nv1Yme3kU9OY2d8CFC6FaK5LuH6G5Xe0jGBI86YC9AAX3ipjwSUSbPSfAWOacHWVf\nNN4aBs0FeO02wkv0Ir4+/CccOKDHvmw9+4F1XeMR5ihvREP2VqaOMwUh+KyauBga\n7j97ZhIfhYBmLCX8lHEEVsjdRzlUHHSP7/ePNUL/DQKBgQC8njRCpI+WbzVhKcSZ\ntoW6bQ8rPOMKmtfzelNHGSbASe8BCraZEvQXjctWS0unENeL/PzpSCYa4oYy0WsQ\nvN4J9Zd2r+uBakTtaWSGXBsAbn2bVAywAQ/09fq6hH9P7HCgE+ZrF2oG2fp7XY2m\nhRlDUkjHo3cB8zlTZFXRBOBzxA==\n-----END PRIVATE KEY-----\n"
+    secret: projects/elite-entries/secrets/FIREBASE_PRIVATE_KEY/versions/latest
 
+  - variable: ENCRYPTION_KEY
+    secret: projects/elite-entries/secrets/ENCRYPTION_KEY/versions/latest
