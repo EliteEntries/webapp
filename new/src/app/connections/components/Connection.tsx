@@ -33,13 +33,14 @@ const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) =>
       <p className="mb-2">{description}</p>
       <div className="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs font-mono flex items-center justify-between">
         <span>{editing ? (
-          <input
-            type="text"
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            className="bg-transparent border-b border-primary px-2 py-1 w-48 text-xs font-mono outline-none"
-            autoFocus
-          />
+            <input
+              type="text"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              className="bg-transparent border-b border-primary px-2 py-1 w-48 text-xs font-mono outline-none"
+              style={{ fontSize: '16px' }}
+              autoFocus
+            />
         ) : (
           maskKey(apiKey)
         )}</span>
