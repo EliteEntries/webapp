@@ -11,7 +11,6 @@ export default function Home() {
         alt="Elite Entries logo"
         width={180}
         height={38}
-        priority
       />
       <p className="text-lg text-center max-w-xl mb-8">
         Elite Entries is a trading API key aggregator and manager for the Elite Entries trading system, built on <a href="https://redbtn.io" className="underline text-blue-600" target="_blank" rel="noopener noreferrer">redbtn</a>. Securely connect, manage, and monitor your trading API keys in one place.
