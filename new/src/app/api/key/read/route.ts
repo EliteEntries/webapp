@@ -3,8 +3,8 @@ import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import crypto from "crypto";
 
-const ENCRYPTION_SECRET = process.env.ENCRYPTION_SECRET as string;
-if (!ENCRYPTION_SECRET) throw new Error("ENCRYPTION_SECRET not set in env");
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
+if (!ENCRYPTION_KEY) throw new Error("ENCRYPTION_KEY not set in env");
 
 if (!getApps().length) {
   initializeApp({
@@ -19,7 +19,7 @@ if (!getApps().length) {
 function decrypt(text: string): string {
   const [ivHex, encrypted] = text.split(":");
   const iv = Buffer.from(ivHex, "hex");
-  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(ENCRYPTION_SECRET, "hex"), iv);
+  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(ENCRYPTION_KEY, "hex"), iv);
   let decrypted = decipher.update(encrypted, "hex", "utf8");
   decrypted += decipher.final("utf8");
   return decrypted;

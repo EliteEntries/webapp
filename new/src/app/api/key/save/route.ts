@@ -3,8 +3,8 @@ import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import crypto from "crypto";
 
-const ENCRYPTION_SECRET = process.env.ENCRYPTION_SECRET as string;
-if (!ENCRYPTION_SECRET) throw new Error("ENCRYPTION_SECRET not set in env");
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
+if (!ENCRYPTION_KEY) throw new Error("ENCRYPTION_KEY not set in env");
 
 if (!getApps().length) {
   initializeApp({
@@ -18,7 +18,7 @@ if (!getApps().length) {
 
 function encrypt(text: string): string {
   const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(ENCRYPTION_SECRET, "hex"), iv);
+  const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(ENCRYPTION_KEY, "hex"), iv);
   let encrypted = cipher.update(text, "utf8", "hex");
   encrypted += cipher.final("hex");
   return iv.toString("hex") + ":" + encrypted;
