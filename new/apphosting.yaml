@@ -12,3 +12,6 @@ env:
 
   - variable: ENCRYPTION_KEY
     secret: projects/elite-entries/secrets/ENCRYPTION_KEY/versions/latest
+
+  - variable: NEXT_PUBLIC_BASE_URL
+    secret: projects/elite-entries/secrets/NEXT_PUBLIC_BASE_URL/versions/latest
