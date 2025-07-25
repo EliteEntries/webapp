@@ -7,7 +7,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-full font-sansp-8 pt-24">
       <Image
         className="mb-6"
-        src="/icon.png"
+        src="/logo.png"
         alt="Elite Entries logo"
         width={180}
         height={38}
