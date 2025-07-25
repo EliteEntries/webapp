@@ -23,9 +23,25 @@ const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) =>
     setEditing(false);
     setInput(apiKey);
   };
-  const handleSave = () => {
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/key/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keyName: name, apiKey: input }),
+      });
+      if (!res.ok) {
+        // Optionally handle error
+        alert("Failed to save API key");
+      }
+    } catch {
+      alert("Failed to save API key");
+    }
     setEditing(false);
-    console.log(`New API key for ${name}:`, input);
+    setSaving(false);
   };
 
   return (
