@@ -35,11 +35,22 @@ const Key: React.FC<KeyProps> = ({ name, description, apiKey }) => {
           body: JSON.stringify({ keyName: name, apiKey: input }),
       });
       if (!res.ok) {
-        // Optionally handle error
+        let errorMsg = res.statusText;
+        try {
+          const data = await res.json();
+          if (data?.error) errorMsg = data.error;
+        } catch {}
+        alert(errorMsg);
         alert("Failed to save API key");
       }
-    } catch {
-      alert("Failed to save API key");
+    } catch (err) {
+      let errorMsg = "Failed to save API key";
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      } else if (typeof err === "string") {
+        errorMsg = err;
+      }
+      alert(errorMsg);
     }
     setEditing(false);
     setSaving(false);
