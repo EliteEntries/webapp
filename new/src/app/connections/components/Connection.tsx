@@ -37,7 +37,7 @@ const Connection: React.FC<ConnectionProps> = ({ name, description, apiKey }) =>
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
-              className="bg-transparent border-b border-primary px-2 py-1 w-48 font-mono outline-none"
+              className="bg-transparent border-b border-primary px-2 py-1 w-32 md:w-48 font-mono outline-none"
               style={{ fontSize: '16px' }}
               autoFocus
             />

@@ -9,7 +9,7 @@ interface MainProps {
 
 const Main: React.FC<MainProps> = ({ children, styles, shift = false }) => {
   // Footer height is h-24 (6rem)
-  const shiftClass = shift ? "lg:ml-64" : "";
+  const shiftClass = shift ? "md:ml-64" : "";
   return (
     <main
       className={`w-full bg-background overflow-x-hidden pb-24 ${shiftClass} ${styles ?? ""} min-h-screen`}
