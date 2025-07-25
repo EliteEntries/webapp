@@ -1,12 +1,13 @@
 
 import Image from "next/image";
+import logo from "@/public/logo.png";
 import HomeButton from "./components/HomeButton";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center h-full font-sansp-8 pt-24">
       <Image
-        src="/logo.png"
+        src={logo}
         alt="Elite Entries logo"
         width={180}
         height={38}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getFirestore } from "firebase-admin/firestore";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import crypto from "crypto";
+import { getServerAuthUser } from "@/utils/serverAuth";
 
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY as string;
 if (!ENCRYPTION_KEY) throw new Error("ENCRYPTION_KEY not set in env");
@@ -26,10 +27,15 @@ function decrypt(text: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, keyName } = await req.json();
-  if (!userId || !keyName) {
+  const { keyName } = await req.json();
+  if (!keyName) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
+  const authUser = await getServerAuthUser();
+  if (!authUser) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const userId = authUser.uid;
   const db = getFirestore();
   const doc = await db.collection("users").doc(userId).collection("keys").doc(keyName).get();
   if (!doc.exists) {

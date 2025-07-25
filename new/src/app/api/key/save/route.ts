@@ -25,10 +25,16 @@ function encrypt(text: string): string {
 }
 
 export async function POST(req: NextRequest) {
-  const { userId, keyName, apiKey } = await req.json();
-  if (!userId || !keyName || !apiKey) {
+  const { keyName, apiKey } = await req.json();
+  if (!keyName || !apiKey) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
+  const { getServerAuthUser } = await import("@/utils/serverAuth");
+  const authUser = await getServerAuthUser();
+  if (!authUser) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const userId = authUser.uid;
   const db = getFirestore();
   const encryptedKey = encrypt(apiKey);
   await db.collection("users").doc(userId).collection("keys").doc(keyName).set({
