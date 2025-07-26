@@ -16,9 +16,15 @@ interface KeyInfo {
 
 
 async function getKeys(): Promise<KeyInfo[]> {
+  const { getIdToken } = await import("../../utils/getIdToken");
+  const idToken = await getIdToken();
+  console.log("Fetching keys with ID token:", idToken);
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
     'http://localhost:3000'}/api/key/list`, {
     cache: 'no-store',
+    headers: {
+      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+    },
   });
   if (!res.ok) return [];
   const data = await res.json();
@@ -41,9 +47,14 @@ export default function KeysPage() {
   const handleCreate = async () => {
     setLoading(true);
     try {
+      const { getIdToken } = await import("../../utils/getIdToken");
+      const idToken = await getIdToken();
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/key/save`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+        },
         body: JSON.stringify({ keyName, apiKey }),
       });
       if (res.ok) {
@@ -52,10 +63,21 @@ export default function KeysPage() {
         setApiKey("");
         getKeys().then(setKeys);
       } else {
-        alert("Failed to save API key");
+        let errorMsg = res.statusText;
+        try {
+          const data = await res.json();
+          if (data?.error) errorMsg = data.error;
+        } catch {}
+        alert(errorMsg);
       }
-    } catch {
-      alert("Failed to save API key");
+    } catch (err) {
+      let errorMsg = "Failed to save API key";
+      if (err instanceof Error) {
+        errorMsg = err.message;
+      } else if (typeof err === "string") {
+        errorMsg = err;
+      }
+      alert(errorMsg);
     }
     setLoading(false);
   };

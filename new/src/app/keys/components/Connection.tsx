@@ -28,10 +28,15 @@ const Key: React.FC<KeyProps> = ({ name, description, apiKey }) => {
   const handleSave = async () => {
     setSaving(true);
     try {
+      const { getIdToken } = await import("../../../utils/getIdToken");
+      const idToken = await getIdToken();
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
         'http://localhost:3000'}/api/key/save`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+          },
           body: JSON.stringify({ keyName: name, apiKey: input }),
       });
       if (!res.ok) {
