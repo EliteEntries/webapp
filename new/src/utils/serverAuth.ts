@@ -15,7 +15,10 @@ if (!getApps().length) {
 export async function getServerAuthUser() {
   const cookieStore = await cookies();
   const session = cookieStore.get('session')?.value;
-  if (!session) return null;
+  if (!session) {
+    console.log("No session cookie found");
+    return null;
+  }
   try {
     const decoded = await getAuth().verifyIdToken(session);
     return decoded; // contains uid, email, etc.
