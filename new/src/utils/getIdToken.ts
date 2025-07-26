@@ -3,6 +3,7 @@ export async function getIdToken(): Promise<string | null> {
     const { getAuth } = await import("firebase/auth");
     const auth = getAuth();
     const user = auth.currentUser;
+    console.log("Current user:", user);
     if (user) {
       return await user.getIdToken();
     }
