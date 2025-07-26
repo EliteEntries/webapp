@@ -27,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const user = await getServerAuthUser();
+  console.log("Server user:", user);
   return (
     <html lang="en">
       <head>
