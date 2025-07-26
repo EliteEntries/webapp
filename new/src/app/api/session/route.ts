@@ -16,6 +16,7 @@ if (!getApps().length) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
+  console.log('Received body:', body);
   const { token } = body;
   if (!token) {
     return NextResponse.json({ error: 'No token provided' }, { status: 400 });
