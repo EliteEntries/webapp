@@ -33,6 +33,7 @@ function maskKey(key: string) {
 
 export async function GET(req: NextRequest) {
   const authUser = await getServerAuthUser();
+  
   if (!authUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
