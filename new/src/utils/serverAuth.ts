@@ -20,6 +20,7 @@ export async function getServerAuthUser() {
     return null;
   }
   try {
+    console.log("Verifying session:", session);
     const decoded = await getAuth().verifyIdToken(session);
     return decoded; // contains uid, email, etc.
   } catch {
