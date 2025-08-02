@@ -6,42 +6,40 @@ export function useKeys(): { keys: KeyInfo[]; loading: boolean } {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
     let isMounted = true;
     let authUnsub: (() => void) | undefined;
     (async () => {
       const { getAuth, onAuthStateChanged } = await import("firebase/auth");
-      const { getFirestore, collection, onSnapshot } = await import("firebase/firestore");
       const auth = getAuth();
-      const db = getFirestore();
-      authUnsub = onAuthStateChanged(auth, (user) => {
+      authUnsub = onAuthStateChanged(auth, async (user) => {
         if (!user) {
           setKeys([]);
           setLoading(false);
-          if (unsubscribe) unsubscribe();
           return;
         }
         setLoading(true);
-        if (unsubscribe) unsubscribe();
-        const keysCol = collection(db, "users", user.uid, "keys");
-        unsubscribe = onSnapshot(keysCol, (snapshot) => {
-          if (!isMounted) return;
-          const keys: KeyInfo[] = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return {
-              keyName: doc.id,
-              apiKey: data.apiKey || "",
-              createdAt: data.createdAt || undefined,
-            };
+        try {
+          const idToken = await user.getIdToken();
+          const res = await fetch("/api/key/list", {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
           });
-          setKeys(keys);
-          setLoading(false);
-        });
+          if (!isMounted) return;
+          if (res.ok) {
+            const data = await res.json();
+            setKeys(data.keys || []);
+          } else {
+            setKeys([]);
+          }
+        } catch {
+          setKeys([]);
+        }
+        setLoading(false);
       });
     })();
     return () => {
       isMounted = false;
-      if (unsubscribe) unsubscribe();
       if (authUnsub) authUnsub();
     };
   }, []);

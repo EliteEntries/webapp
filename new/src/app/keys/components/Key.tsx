@@ -10,7 +10,7 @@ interface KeyProps {
 }
 
 function maskKey(key: string) {
-  if (key.length <= 8) return "****";
+  if (key.length <= 8) return "********";
   return key.slice(0, 4) + "-xxxx-xxxx-" + key.slice(-4);
 }
 
