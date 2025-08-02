@@ -50,6 +50,7 @@ export default function KeysPage() {
     try {
       const { getIdToken } = await import("../../utils/getIdToken");
       const idToken = await getIdToken();
+      console.log(`Creating key with name "${keyName}" and API key:`, apiKey);
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/key/save`, {
         method: "POST",
         headers: {
