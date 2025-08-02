@@ -1,16 +1,16 @@
 // Convert to client component for modal state
 'use client';
 
+import { useState } from "react";
+import Button from "../../components/Button";
+import Modal from "../../components/Modal";
 import { AuthGuard } from "../contexts/AuthContext";
 import Keys from "./components/Keys";
-import Modal from "../../components/Modal";
-import Button from "../../components/Button";
-import { useState } from "react";
 
-import { getKeys, KeyInfo } from "./lib/getKeys";
+import { useEffect } from "react";
 import { createKey } from "./lib/createKey";
+import { KeyInfo } from "./lib/getKeys";
 
-import React from "react";
 
 export default function KeysPage() {
   const [keys, setKeys] = useState<KeyInfo[]>([]);
@@ -19,8 +19,34 @@ export default function KeysPage() {
   const [apiKey, setApiKey] = useState("");
   const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
-    getKeys().then(setKeys);
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+    let isMounted = true;
+    (async () => {
+      const { getAuth } = await import("firebase/auth");
+      const { getFirestore, collection, onSnapshot } = await import("firebase/firestore");
+      const auth = getAuth();
+      const db = getFirestore();
+      const user = auth.currentUser;
+      if (!user) return;
+      const keysCol = collection(db, "users", user.uid, "keys");
+      unsubscribe = onSnapshot(keysCol, (snapshot) => {
+        if (!isMounted) return;
+        const keys: KeyInfo[] = snapshot.docs.map(doc => {
+          const data = doc.data();
+          return {
+            keyName: doc.id,
+            apiKey: data.apiKey || "",
+            createdAt: data.createdAt || undefined,
+          };
+        });
+        setKeys(keys);
+      });
+    })();
+    return () => {
+      isMounted = false;
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const handleCreate = async () => {
@@ -31,7 +57,6 @@ export default function KeysPage() {
         setModalOpen(false);
         setKeyName("");
         setApiKey("");
-        getKeys().then(setKeys);
       } else {
         alert(result.error || "Failed to save API key");
       }
@@ -56,7 +81,7 @@ export default function KeysPage() {
         <Button className="mb-6 px-4 py-2 bg-primary text-white rounded" onClick={() => setModalOpen(true)}>
           Create Key
         </Button>
-        <Keys keys={keys} onDelete={() => getKeys().then(setKeys)} />
+        <Keys keys={keys} />
         <Modal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
