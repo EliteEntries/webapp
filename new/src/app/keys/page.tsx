@@ -1,53 +1,21 @@
 // Convert to client component for modal state
 'use client';
 
+
 import { useState } from "react";
-import Button from "../../components/Button";
-import Modal from "../../components/Modal";
 import { AuthGuard } from "../contexts/AuthContext";
 import Keys from "./components/Keys";
-
-import { useEffect } from "react";
+import Modal from "../../components/Modal";
+import Button from "../../components/Button";
+import { useKeys } from "./hooks/useKeys";
 import { createKey } from "./lib/createKey";
-import { KeyInfo } from "./lib/getKeys";
-
 
 export default function KeysPage() {
-  const [keys, setKeys] = useState<KeyInfo[]>([]);
+  const keys = useKeys();
   const [modalOpen, setModalOpen] = useState(false);
   const [keyName, setKeyName] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    let unsubscribe: (() => void) | undefined;
-    let isMounted = true;
-    (async () => {
-      const { getAuth } = await import("firebase/auth");
-      const { getFirestore, collection, onSnapshot } = await import("firebase/firestore");
-      const auth = getAuth();
-      const db = getFirestore();
-      const user = auth.currentUser;
-      if (!user) return;
-      const keysCol = collection(db, "users", user.uid, "keys");
-      unsubscribe = onSnapshot(keysCol, (snapshot) => {
-        if (!isMounted) return;
-        const keys: KeyInfo[] = snapshot.docs.map(doc => {
-          const data = doc.data();
-          return {
-            keyName: doc.id,
-            apiKey: data.apiKey || "",
-            createdAt: data.createdAt || undefined,
-          };
-        });
-        setKeys(keys);
-      });
-    })();
-    return () => {
-      isMounted = false;
-      if (unsubscribe) unsubscribe();
-    };
-  }, []);
 
   const handleCreate = async () => {
     setLoading(true);
