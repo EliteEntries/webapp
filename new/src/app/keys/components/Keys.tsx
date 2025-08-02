@@ -2,7 +2,7 @@
 "use client";
 import React from "react";
 import Accordian from "../../../components/Accordian";
-import Connection from "./Connection";
+import Connection from "./Key";
 import { deleteKey } from "../lib/deleteKey";
 import Modal from "../../../components/Modal";
 

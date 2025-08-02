@@ -2,13 +2,10 @@
 'use client';
 
 import { AuthGuard } from "../contexts/AuthContext";
-import Keys from "./components/Connections";
+import Keys from "./components/Keys";
 import Modal from "../../components/Modal";
 import Button from "../../components/Button";
 import { useState } from "react";
-
-
-
 
 import { getKeys, KeyInfo } from "./lib/getKeys";
 import { createKey } from "./lib/createKey";
