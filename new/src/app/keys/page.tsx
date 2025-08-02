@@ -17,6 +17,7 @@ interface KeyInfo {
 
 async function getKeys(): Promise<KeyInfo[]> {
   const { getIdToken } = await import("../../utils/getIdToken");
+  console.log("Fetching keys...");
   const idToken = await getIdToken();
   console.log("Fetching keys with ID token:", idToken);
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
