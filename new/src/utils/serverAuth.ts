@@ -29,7 +29,6 @@ export async function getServerAuthUser() {
     return null;
   }
   try {
-    console.log("Verifying ID token:", idToken);
     const decoded = await getAuth().verifyIdToken(idToken);
     return decoded; // contains uid, email, etc.
   } catch (err) {

@@ -8,29 +8,10 @@ import Button from "../../components/Button";
 import { useState } from "react";
 
 
-interface KeyInfo {
-  keyName: string;
-  apiKey: string;
-  createdAt?: string;
-}
 
 
-async function getKeys(): Promise<KeyInfo[]> {
-  const { getIdToken } = await import("../../utils/getIdToken");
-  console.log("Fetching keys...");
-  const idToken = await getIdToken();
-  console.log("Fetching keys with ID token:", idToken);
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 
-    'http://localhost:3000'}/api/key/list`, {
-    cache: 'no-store',
-    headers: {
-      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
-    },
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.keys || [];
-}
+import { getKeys, KeyInfo } from "./lib/getKeys";
+import { createKey } from "./lib/createKey";
 
 import React from "react";
 
@@ -48,29 +29,14 @@ export default function KeysPage() {
   const handleCreate = async () => {
     setLoading(true);
     try {
-      const { getIdToken } = await import("../../utils/getIdToken");
-      const idToken = await getIdToken();
-      console.log(`Creating key with name "${keyName}" and API key:`, apiKey);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/key/save`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
-        },
-        body: JSON.stringify({ keyName, apiKey }),
-      });
-      if (res.ok) {
+      const result = await createKey(keyName, apiKey);
+      if (result.success) {
         setModalOpen(false);
         setKeyName("");
         setApiKey("");
         getKeys().then(setKeys);
       } else {
-        let errorMsg = res.statusText;
-        try {
-          const data = await res.json();
-          if (data?.error) errorMsg = data.error;
-        } catch {}
-        alert(errorMsg);
+        alert(result.error || "Failed to save API key");
       }
     } catch (err) {
       let errorMsg = "Failed to save API key";
@@ -84,6 +50,7 @@ export default function KeysPage() {
     setLoading(false);
   };
 
+
   return (
     <AuthGuard>
       <div className="max-w-xl mx-auto p-8 mt-12">
@@ -92,7 +59,7 @@ export default function KeysPage() {
         <Button className="mb-6 px-4 py-2 bg-primary text-white rounded" onClick={() => setModalOpen(true)}>
           Create Key
         </Button>
-        <Keys keys={keys} />
+        <Keys keys={keys} onDelete={() => getKeys().then(setKeys)} />
         <Modal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
