@@ -7,6 +7,8 @@ export async function getIdToken(): Promise<string | null> {
     if (user) {
       return await user.getIdToken();
     }
-  } catch {}
+  } catch (error) {
+    console.error("Error getting ID token:", error);
+  }
   return null;
 }
