@@ -11,14 +11,14 @@ import { useKeys } from "./hooks/useKeys";
 import { createKey } from "./lib/createKey";
 
 export default function KeysPage() {
-  const keys = useKeys();
+  const { keys, loading } = useKeys();
   const [modalOpen, setModalOpen] = useState(false);
   const [keyName, setKeyName] = useState("");
   const [apiKey, setApiKey] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const handleCreate = async () => {
-    setLoading(true);
+    setSaving(true);
     try {
       const result = await createKey(keyName, apiKey);
       if (result.success) {
@@ -37,7 +37,7 @@ export default function KeysPage() {
       }
       alert(errorMsg);
     }
-    setLoading(false);
+    setSaving(false);
   };
 
 
@@ -49,7 +49,11 @@ export default function KeysPage() {
         <Button className="mb-6 px-4 py-2 bg-primary text-white rounded" onClick={() => setModalOpen(true)}>
           Create Key
         </Button>
-        <Keys keys={keys} />
+        {loading ? (
+          <div className="text-center text-muted-foreground my-8">Loading keys...</div>
+        ) : (
+          <Keys keys={keys} />
+        )}
         <Modal
           open={modalOpen}
           onClose={() => setModalOpen(false)}
@@ -58,12 +62,12 @@ export default function KeysPage() {
           buttons={
             <>
               <Button
-                className={`bg-primary text-white px-4 py-2 rounded${loading || !keyName || !apiKey ? ' opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-primary text-white px-4 py-2 rounded${saving || !keyName || !apiKey ? ' opacity-50 cursor-not-allowed' : ''}`}
                 onClick={() => {
-                  if (!loading && keyName && apiKey) handleCreate();
+                  if (!saving && keyName && apiKey) handleCreate();
                 }}
               >
-                {loading ? "Saving..." : "Save"}
+                {saving ? "Saving..." : "Save"}
               </Button>
               <Button className="text-muted-foreground px-4 py-2 rounded" onClick={() => setModalOpen(false)}>
                 Cancel
@@ -78,7 +82,7 @@ export default function KeysPage() {
               value={keyName}
               onChange={e => setKeyName(e.target.value)}
               className="border px-3 py-2 rounded w-full"
-              disabled={loading}
+              disabled={saving}
             />
             <input
               type="text"
@@ -86,7 +90,7 @@ export default function KeysPage() {
               value={apiKey}
               onChange={e => setApiKey(e.target.value)}
               className="border px-3 py-2 rounded w-full font-mono"
-              disabled={loading}
+              disabled={saving}
             />
           </div>
         </Modal>
