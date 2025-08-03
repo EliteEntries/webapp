@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const redirectUri = searchParams.get('redirect_uri');
   const responseType = searchParams.get('response_type');
   const state = searchParams.get('state');
-  const scope = searchParams.get('scope');
+  // const scope = searchParams.get('scope'); // Unused, comment out to fix lint warning
 
   // TODO: Authenticate user session here
   const userId = 'demo-user'; // Replace with real user ID

@@ -6,7 +6,7 @@ const accessTokens = new Map<string, { userId: string; clientId: string }>();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { code, client_id, client_secret, redirect_uri, grant_type } = body;
+  const { code, client_id, /* client_secret, */ redirect_uri, grant_type } = body; // client_secret unused
 
   // TODO: Validate client_id/client_secret
   if (grant_type !== 'authorization_code' || !code || !client_id || !redirect_uri) {

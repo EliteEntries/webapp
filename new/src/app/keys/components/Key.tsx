@@ -23,10 +23,10 @@ const Key: React.FC<KeyProps> = ({ name, description, apiKey }) => {
     setEditing(false);
     setInput(apiKey);
   };
-  const [saving, setSaving] = useState(false);
+  // const [saving, setSaving] = useState(false); // Unused, comment out to fix lint warning
 
   const handleSave = async () => {
-    setSaving(true);
+    // setSaving(true);
     try {
       const { getIdToken } = await import("../../../utils/getIdToken");
       const idToken = await getIdToken();
@@ -58,7 +58,7 @@ const Key: React.FC<KeyProps> = ({ name, description, apiKey }) => {
       alert(errorMsg);
     }
     setEditing(false);
-    setSaving(false);
+    // setSaving(false);
   };
 
   return (

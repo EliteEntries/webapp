@@ -31,7 +31,7 @@ function maskKey(key: string) {
   return key.slice(0, 4) + "-xxxx-xxxx-" + key.slice(-4);
 }
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   const authUser = await getServerAuthUser();
   
   if (!authUser) {

@@ -48,7 +48,7 @@ export function useKeys(): { keys: KeyInfo[]; loading: boolean } {
       }
     };
 
-    authUnsub = onAuthStateChanged(getAuth(), (user) => {
+    const unsub = onAuthStateChanged(getAuth(), (user) => {
       if (!user) {
         setKeys([]);
         setLoading(false);
@@ -61,7 +61,7 @@ export function useKeys(): { keys: KeyInfo[]; loading: boolean } {
 
     return () => {
       isMounted = false;
-      if (authUnsub) authUnsub();
+      unsub();
       if (firestoreUnsub) firestoreUnsub();
     };
   }, []);
