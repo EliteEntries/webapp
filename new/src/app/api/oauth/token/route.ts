@@ -1,29 +1,57 @@
-import { NextRequest, NextResponse } from 'next/server';
 
-// Dummy in-memory stores (replace with DB in production)
-const authCodes = new Map<string, { clientId: string; userId: string; redirectUri: string }>();
-const accessTokens = new Map<string, { userId: string; clientId: string }>();
+import { NextRequest, NextResponse } from 'next/server';
+import { getFirestore } from 'firebase-admin/firestore';
+import { initializeApp, cert, getApps } from 'firebase-admin/app';
+
+if (!getApps().length) {
+  initializeApp({
+    credential: cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+  });
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { code, client_id, /* client_secret, */ redirect_uri, grant_type } = body; // client_secret unused
+  const { code, client_id, client_secret, redirect_uri, grant_type } = body;
 
-  // TODO: Validate client_id/client_secret
-  if (grant_type !== 'authorization_code' || !code || !client_id || !redirect_uri) {
+  if (grant_type !== 'authorization_code' || !code || !client_id || !client_secret || !redirect_uri) {
     return NextResponse.json({ error: 'invalid_request' }, { status: 400 });
   }
 
-  const codeData = authCodes.get(code);
-  if (!codeData || codeData.clientId !== client_id || codeData.redirectUri !== redirect_uri) {
+  const db = getFirestore();
+  // Validate client_id and client_secret
+  const clientDoc = await db.collection('clients').doc(client_id).get();
+  if (!clientDoc.exists) {
+    return NextResponse.json({ error: 'invalid_client' }, { status: 400 });
+  }
+  const clientData = clientDoc.data();
+  if (!clientData || clientData.client_secret !== client_secret) {
+    return NextResponse.json({ error: 'invalid_client' }, { status: 400 });
+  }
+
+  // Lookup auth code in Firestore
+  const codeDoc = await db.collection('authCodes').doc(code).get();
+  if (!codeDoc.exists) {
+    return NextResponse.json({ error: 'invalid_grant' }, { status: 400 });
+  }
+  const codeData = codeDoc.data();
+  if (!codeData || codeData.clientId !== client_id || codeData.redirectUri !== redirect_uri || codeData.used) {
     return NextResponse.json({ error: 'invalid_grant' }, { status: 400 });
   }
 
   // Generate access token
   const accessToken = Math.random().toString(36).substring(2, 15);
-  accessTokens.set(accessToken, { userId: codeData.userId, clientId: client_id });
+  await db.collection('accessTokens').doc(accessToken).set({
+    userId: codeData.userId,
+    clientId: client_id,
+    createdAt: new Date().toISOString(),
+  });
 
-  // Remove used code
-  authCodes.delete(code);
+  // Mark code as used
+  await db.collection('authCodes').doc(code).update({ used: true });
 
   return NextResponse.json({
     access_token: accessToken,
