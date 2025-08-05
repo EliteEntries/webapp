@@ -70,38 +70,46 @@ export default function OAuthAuthorizePage() {
   };
 
   return (
-    <div className="ee-oauth-container">
-      <div className="ee-oauth-card">
-        <h2 className="ee-oauth-title">Authorize Application</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full flex flex-col items-stretch">
+        <div className="flex items-center justify-center mb-6 gap-3">
+          <img
+            src="/logo.png"
+            alt="Elite Entries Logo"
+            className="w-10 h-10 rounded-lg shadow-sm object-contain"
+            style={{ background: '#7b93df' }}
+          />
+          <h2 className="text-2xl font-bold text-gray-800">Authorize Application</h2>
+        </div>
         {loadingApp ? (
-          <div className="ee-oauth-loading">Loading app info...</div>
+          <div className="text-center text-gray-400 my-8">Loading app info...</div>
         ) : (
           <>
-            <div className="ee-oauth-appinfo">
+            <div className="flex items-center gap-4 mb-2">
               {appInfo?.logo_url && (
-                <img src={appInfo.logo_url} alt="App logo" className="ee-oauth-logo" />
+                <img src={appInfo.logo_url} alt="App logo" className="w-14 h-14 rounded-lg object-contain border border-gray-200 bg-gray-50" />
               )}
               <div>
-                <div className="ee-oauth-appname">{appInfo?.name || clientId || 'Unknown App'}</div>
+                <div className="text-lg font-semibold text-gray-700">{appInfo?.name || clientId || 'Unknown App'}</div>
                 {appInfo?.website_url && (
-                  <a href={appInfo.website_url} target="_blank" rel="noopener noreferrer" className="ee-oauth-website">Visit website</a>
+                  <a href={appInfo.website_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-sm">Visit website</a>
                 )}
               </div>
             </div>
-            {appInfo?.description && <div className="ee-oauth-desc">{appInfo.description}</div>}
+            {appInfo?.description && <div className="text-gray-500 text-base mb-4 mt-1">{appInfo.description}</div>}
           </>
         )}
-        <div className="ee-oauth-divider" />
-        <div className="ee-oauth-actions">
+        <div className="border-b border-gray-200 my-6" />
+        <div className="flex gap-4 justify-center">
           <button
-            className="ee-oauth-btn ee-oauth-btn-allow"
+            className="min-w-[110px] px-4 py-2 rounded-md font-semibold text-white bg-primary hover:bg-primary/90 transition disabled:bg-primary/50 disabled:cursor-not-allowed"
             onClick={() => handleDecision(true)}
             disabled={submitting}
           >
             Allow
           </button>
           <button
-            className="ee-oauth-btn ee-oauth-btn-deny"
+            className="min-w-[110px] px-4 py-2 rounded-md font-semibold text-primary bg-gray-100 border border-primary/20 hover:bg-primary/5 transition disabled:bg-gray-200 disabled:text-primary/50 disabled:cursor-not-allowed"
             onClick={() => handleDecision(false)}
             disabled={submitting}
           >
@@ -109,109 +117,6 @@ export default function OAuthAuthorizePage() {
           </button>
         </div>
       </div>
-      <style jsx>{`
-        .ee-oauth-container {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #f3f6fa;
-        }
-        .ee-oauth-card {
-          background: #fff;
-          border-radius: 14px;
-          box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-          padding: 2.5rem 2rem 2rem 2rem;
-          max-width: 420px;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-        }
-        .ee-oauth-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 1.5rem;
-          color: #3b4252;
-          text-align: center;
-        }
-        .ee-oauth-loading {
-          text-align: center;
-          color: #888;
-          margin: 2rem 0;
-        }
-        .ee-oauth-appinfo {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          margin-bottom: 0.5rem;
-        }
-        .ee-oauth-logo {
-          width: 56px;
-          height: 56px;
-          border-radius: 12px;
-          object-fit: contain;
-          background: #f3f6fa;
-          border: 1px solid #e5e7eb;
-        }
-        .ee-oauth-appname {
-          font-size: 1.15rem;
-          font-weight: 600;
-          color: #2d3748;
-        }
-        .ee-oauth-website {
-          font-size: 0.95rem;
-          color: #4f8cff;
-          text-decoration: none;
-          margin-top: 0.1rem;
-          display: inline-block;
-        }
-        .ee-oauth-desc {
-          color: #5a6270;
-          font-size: 1rem;
-          margin-bottom: 1.5rem;
-          margin-top: 0.5rem;
-        }
-        .ee-oauth-divider {
-          border-bottom: 1px solid #e5e7eb;
-          margin: 1.5rem 0 1.25rem 0;
-        }
-        .ee-oauth-actions {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-        }
-        .ee-oauth-btn {
-          min-width: 110px;
-          padding: 0.7rem 0;
-          font-size: 1rem;
-          border-radius: 8px;
-          border: none;
-          font-weight: 600;
-          cursor: pointer;
-          transition: background 0.15s, color 0.15s;
-        }
-        .ee-oauth-btn-allow {
-          background: #4f8cff;
-          color: #fff;
-        }
-        .ee-oauth-btn-allow:disabled {
-          background: #bcd6fa;
-          color: #fff;
-          cursor: not-allowed;
-        }
-        .ee-oauth-btn-deny {
-          background: #f3f6fa;
-          color: #4f8cff;
-          border: 1px solid #bcd6fa;
-        }
-        .ee-oauth-btn-deny:disabled {
-          background: #f3f6fa;
-          color: #bcd6fa;
-          border: 1px solid #bcd6fa;
-          cursor: not-allowed;
-        }
-      `}</style>
     </div>
   );
 }
