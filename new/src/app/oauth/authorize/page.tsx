@@ -2,8 +2,11 @@
 "use client";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Image from "next/image";
 
 import { getIdToken } from '@/utils/getIdToken';
+
+import logo from "../../public/logo.png";
 
 export default function OAuthAuthorizePage() {
   const searchParams = useSearchParams();
@@ -73,8 +76,8 @@ export default function OAuthAuthorizePage() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full flex flex-col items-stretch">
         <div className="flex items-center justify-center mb-6 gap-3">
-          <img
-            src="/logo.png"
+          <Image
+            src={logo.src}
             alt="Elite Entries Logo"
             className="w-10 h-10 rounded-lg shadow-sm object-contain"
             style={{ background: '#7b93df' }}
