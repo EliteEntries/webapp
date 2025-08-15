@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import { getIdToken } from '@/utils/getIdToken';
 
-import logo from "../../public/logo.png";
+import logo from "../../../../public/logo.png";
 
 export default function OAuthAuthorizePage() {
   const searchParams = useSearchParams();
